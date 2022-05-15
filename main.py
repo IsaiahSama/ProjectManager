@@ -6,6 +6,7 @@ if not (v.major == 3 and v.minor >= 10):
     raise SystemExit
 
 from mechanics import Menu
+import errors
 
 class Main:
     """The main class which handles the main functionality of the program.
@@ -25,8 +26,8 @@ class Main:
             except KeyboardInterrupt:
                 print("Press enter to return to the main menu. Press ctrl + c again to quit the program.")
                 input()
-            except Exception as err:
-                print(err)
+            except errors.MyErrors as err:
+                print(err)              
 
 if __name__ == "__main__":
     main = Main()
