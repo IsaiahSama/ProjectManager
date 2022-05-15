@@ -6,6 +6,14 @@ import errors
 
 db = database.Database()
 
+def fix(e):
+    e = list(e)
+    e[0] = str(e[0])
+    return tuple(e)
+
+def optionify(items:list):
+    return dict([fix(e) for e in list(enumerate(items, start=1))])
+
 class Beautify:
     """Class used to format stuff... I guess??
     
@@ -133,18 +141,10 @@ class Menu:
             "4": "Completed"
         }
 
-    def fix(self, e):
-        e = list(e)
-        e[0] = str(e[0])
-        return tuple(e)
-
-    def optionify(self, items:list):
-        return dict([self.fix(e) for e in list(enumerate(items, start=1))])
-
     def show_menu(self):
         """Used to display the menu to the user."""
 
-        options = self.optionify(self.menu_options)
+        options = optionify(self.menu_options)
         menu = self.beauty.format_menu(self.menu_options)
 
         message = "Select the number of the option you want to do.\n"
@@ -168,7 +168,7 @@ class Menu:
             else: print("Ok, again.")
 
         while True:
-            state = self.validate.validate_choice("What state is the project in? Select the matching number from the below options", self.states)
+            state = self.validate.validate_choice("What state is the project in? Select the matching number from the below options.\n" + self.beauty.format_menu(self.states.values()), self.states)
             if self.validate.validate_yes_no("Are you sure you want to set the state to " + state + "?"): break
             else: print("Ok, again.")
 
@@ -205,7 +205,7 @@ class Menu:
             target = title
 
         if not target:
-            options = self.optionify(db.query_project_titles())
+            options = optionify(db.query_project_titles())
             target = self.validate.validate_choice("Which project do you want to view? Select the number that matches the name.", options)
 
         print(self.beauty.format_project(db.query_project_by_title(target)))
