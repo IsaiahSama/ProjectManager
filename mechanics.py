@@ -190,7 +190,48 @@ class Menu:
 
     def update_project(self):
         """Used to update a project."""
-        pass 
+        print("What project do you want to update?")
+        title = self.view_project()
+
+        new_title, desc, state, eta = None, None, None, None
+        print("Press ctrl + c when you are done.") 
+
+        options = ["Title", "Description", "State", "Expected Time To Finish"]
+        while True:
+            print("What do you want to edit?")
+            choice = self.validate.validate_choice(self.beauty.format_menu(options), options)
+            if choice == options[0]:
+                print("Enter your new title")
+                new_title = input(": ")
+                if not self.validate.validate_title(new_title):
+                    print("That title is already taken.")
+                    new_title = None
+
+            if choice == options[1]:
+                print("Enter your new description.")
+                desc = input(": ")
+                if not self.validate.validate_yes_no("Is this your new description?"):
+                    print("Cancelling that.")
+                    desc = None
+
+            if choice == options[2]:
+                state = self.validate.validate_choice("What state is the project in? Select the matching number from the below options.\n" + self.beauty.format_menu(self.states.values()), self.states)
+                if not self.validate.validate_yes_no("Are you sure you want to set the state to " + state + "?"):
+                    print("Won't change that then.")
+                    state = None
+
+            if choice == options[3]:
+                print("Enter the new Expected time to finish.")
+                eta = input(": ")
+                if not self.validate.validate_yes_no("Are you sure?"):
+                    print("Won't change it then.")
+                    eta = None
+
+            if any([new_title, desc, eta, state]):
+                db.update_project_by_title(title, new_title, desc, state, eta)
+                print("Completed")
+            else:
+                print("Aborting")
 
     def view_project(self, title:str=None) -> str:
         """Used to view a project.
