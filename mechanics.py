@@ -30,7 +30,7 @@ class Beautify:
 
         output = ""
         for index, key in enumerate(menu_dict, start=1):
-            output += index + ") " + key + "\n"
+            output += str(index) + ") " + key + "\n"
 
         return output
 
