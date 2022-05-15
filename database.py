@@ -100,8 +100,12 @@ class Database:
 
         info = (title, description, state, comp_date)
 
-        exists = self.query_project_by_title(title)
-        if exists: raise errors.DuplicateEntryError("Name: ", title)
+        try:
+            self.query_project_by_title(title)
+        except errors.MissingEntryError:
+            pass
+        else:
+            raise errors.DuplicateEntryError("Name: ", title)
 
         with connect(self.DB_NAME) as db:
             db.execute("INSERT INTO ProjectTable (title, description, state, comp_date, date_added) VALUES (?, ?, ?, ?, datetime('now', 'localtime'))", info)
