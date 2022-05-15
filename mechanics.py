@@ -65,8 +65,8 @@ class Validator:
         try:
             db.query_project_by_title(title)
         except errors.MissingEntryError:
-            return False
-        return True
+            return True
+        return False
 
     def validate_yes_no(self, prompt:str) -> bool:
         """Used to validate a yes no response.
