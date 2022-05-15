@@ -5,6 +5,8 @@ if not (v.major == 3 and v.minor >= 10):
     input("Press enter to exit")
     raise SystemExit
 
+from mechanics import Menu
+
 class Main:
     """The main class which handles the main functionality of the program.
     
@@ -13,11 +15,18 @@ class Main:
     Methods:
         run(): Used to run the program."""
 
-    def run(self):
-        pass
-
     def __init__(self) -> None:
-        pass
+        self.menu = Menu()
+
+    def run(self):
+        while True:
+            try:
+                self.menu.show_menu()
+            except KeyboardInterrupt:
+                print("Press enter to return to the main menu. Press ctrl + c again to quit the program.")
+                input()
+            except Exception as err:
+                print(err)
 
 if __name__ == "__main__":
     main = Main()
