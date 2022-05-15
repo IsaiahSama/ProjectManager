@@ -5,7 +5,8 @@ class MyErrors(Exception):
     """Base class for me Exceptions."""
 
     def __init__(self, *args):
-        super().__init__(args)
+        result = ', '.join(args)
+        super().__init__(result)
 
 
 class MissingEntryError(MyErrors):
@@ -14,7 +15,7 @@ class MissingEntryError(MyErrors):
     def __init__(self, *args):
         base_message = "MissingEntryError: A value that you queried does not exist in the database."
         result = ', '.join([base_message, *args])
-        super().__init__(base_message, args)
+        super().__init__(result)
 
 class DuplicateEntryError(MyErrors):
     """Exception raised when an entry with a given title already exists."""
@@ -22,4 +23,4 @@ class DuplicateEntryError(MyErrors):
     def __init__(self, *args):
         base_message = "DuplicateEntryError: Entry with this name already exists."
         result = ', '.join([base_message, *args])
-        super().__init__(base_message, args)
+        super().__init__(result)
