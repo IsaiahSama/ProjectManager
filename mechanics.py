@@ -133,13 +133,13 @@ class Menu:
             "4": "Completed"
         }
 
-    def fix(e):
+    def fix(self, e):
         e = list(e)
         e[0] = str(e[0])
         return tuple(e)
 
     def optionify(self, items:list):
-        return dict(self.fix(list(enumerate(items, start=1))))
+        return dict([self.fix(e) for e in list(enumerate(items, start=1))])
 
     def show_menu(self):
         """Used to display the menu to the user."""
