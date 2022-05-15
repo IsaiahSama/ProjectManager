@@ -15,6 +15,7 @@ class Database:
         setup(): Used to setup the database.
         query_all_projects(): Used to get all projects from the db.
         query_project_by_title(title): Used to get a project by its title.
+        query_project_titles(): Used to get all titles of projects
         add_new_project(title, description, state, comp_date)
         delete_project_by_title(title): Used to delete a project by its title.
         delete_all_projects(): Used to delete all projects stored.
@@ -71,6 +72,16 @@ class Database:
         if not row: raise errors.MissingEntryError("No entry with the title ", title, " exists")
 
         return row 
+
+    def query_project_titles(self) -> List | None:
+        """Used to get all the titles of projects.
+        
+        Returns:
+            List | None"""
+
+        rows = self.query_all_projects()
+        titles = [row[0] for row in rows]
+        return titles
 
     def add_new_project(self, title:str, description:str, state:str, comp_date:str) -> bool:
         """Adds a new project to the database.
