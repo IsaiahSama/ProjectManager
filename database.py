@@ -162,7 +162,7 @@ class Database:
         # May raise MissingEntryError
         og = self.query_project_by_title(title)
 
-        data = list(og)
+        data = list(og)[:-1]
         
         if new_title:
             data[0] = new_title
@@ -171,7 +171,8 @@ class Database:
         if state:
             data[2] = state
         if comp_date:
-            data[4] = comp_date
+            data[3] = comp_date
+        
 
         with connect(self.DB_NAME) as db:
             db.execute("""UPDATE ProjectTable 
@@ -179,7 +180,8 @@ class Database:
             description = ?,
             state = ?,
             comp_date = ?
-            WHERE title = ?""", (*data, title))
+            WHERE 
+            title = ?""", (*data, title))
             db.commit()
 
 

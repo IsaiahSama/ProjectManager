@@ -194,12 +194,12 @@ class Menu:
         title = self.view_project()
 
         new_title, desc, state, eta = None, None, None, None
-        print("Press ctrl + c when you are done.") 
+        print("Press ctrl + c to quit.") 
 
-        options = ["Title", "Description", "State", "Expected Time To Finish"]
+        options = ["Title", "Description", "State", "Expected Time To Finish", "Save"]
         while True:
             print("What do you want to edit?")
-            choice = self.validate.validate_choice(self.beauty.format_menu(options), options)
+            choice = self.validate.validate_choice(self.beauty.format_menu(options), optionify(options))
             if choice == options[0]:
                 print("Enter your new title")
                 new_title = input(": ")
@@ -227,11 +227,14 @@ class Menu:
                     print("Won't change it then.")
                     eta = None
 
-            if any([new_title, desc, eta, state]):
-                db.update_project_by_title(title, new_title, desc, state, eta)
-                print("Completed")
-            else:
-                print("Aborting")
+            if choice == options[4]:
+                break
+
+        if any([new_title, desc, eta, state]):
+            db.update_project_by_title(title, new_title, desc, state, eta)
+            print("Completed")
+        else:
+            print("Aborting")
 
     def view_project(self, title:str=None) -> str:
         """Used to view a project.
