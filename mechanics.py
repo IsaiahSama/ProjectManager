@@ -201,12 +201,13 @@ class Menu:
         Returns:
             Str: The selected title"""
 
+        target = None
         if title:
             target = title
 
         if not target:
             options = optionify(db.query_project_titles())
-            target = self.validate.validate_choice("Which project do you want to view? Select the number that matches the name.", options)
+            target = self.validate.validate_choice("Which project do you want to view? Select the number that matches the name.\n" + self.beauty.format_menu(options.values()), options)
 
         print(self.beauty.format_project(db.query_project_by_title(target)))
         input("Press enter to continue")
