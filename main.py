@@ -1,4 +1,5 @@
 import sys
+from os import system
 v = sys.version_info
 if not (v.major == 3 and v.minor >= 10):
     print("This program requires Python version 3.10 or higher to function. Please update your version of python and try again.")
@@ -22,6 +23,7 @@ class Main:
     def run(self):
         while True:
             try:
+                system("CLS")
                 self.menu.show_menu()
             except KeyboardInterrupt:
                 print("Press enter to return to the main menu. Press ctrl + c again to quit the program.")
